@@ -1,6 +1,22 @@
 #!/bin/bash
-# Busca la palabra "home" en los archivos de una carpeta
-palabra="home"
-carpeta=$1
+# Busca una palabra en los archivos de una carpeta.
 
-grep -rl "$palabra" "$carpeta"
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+  echo "Uso: $0 palabra [carpeta]" >&2
+  exit 1
+fi
+
+palabra="$1"
+carpeta="${2:-/}"
+
+if [ -z "$palabra" ]; then
+  echo "Error: la palabra no puede estar vacia." >&2
+  exit 1
+fi
+
+if [ ! -d "$carpeta" ]; then
+  echo "Error: la carpeta '$carpeta' no existe." >&2
+  exit 1
+fi
+
+grep -rlF -- "$palabra" "$carpeta"
