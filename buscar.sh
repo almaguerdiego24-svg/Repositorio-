@@ -19,4 +19,5 @@ if [ ! -d "$carpeta" ]; then
   exit 1
 fi
 
-grep -rlF -- "$palabra" "$carpeta"
+carpeta=$(cd -- "$carpeta" && pwd -P) || exit 1
+grep -rlFs -- "$palabra" "$carpeta"
